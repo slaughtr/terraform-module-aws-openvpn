@@ -14,7 +14,7 @@ resource "aws_instance" "openvpn" {
   ami                         = var.ami_id
   associate_public_ip_address = var.associate_public_ip_address
   instance_type               = var.instance_type
-  key_name                    = var.keyname
+  key_name                    = var.key_pair_keyname
   source_dest_check           = false
   subnet_id                   = element(var.subnet_ids, 0)
   user_data                   = element(data.template_file.openvpn.*.rendered, 0)
@@ -42,6 +42,7 @@ data "template_file" "openvpn" {
 data "template_file" "openvpn_rule" {
   count    = length(var.vpn_allowed_cidrs)
   template = "-p 'route $${network_addr} $${network_mask}'"
+  
   vars = {
     network_addr = cidrhost(var.vpn_allowed_cidrs[count.index], 0)
     network_mask = cidrnetmask(var.vpn_allowed_cidrs[count.index])

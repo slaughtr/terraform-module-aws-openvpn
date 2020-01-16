@@ -26,9 +26,14 @@ variable "instance_type" {
   type        = string
 }
 
-variable "keyname" {
-  description = "The SSH key name to use for the OpenVPN instance."
+variable "key_pair_keyname" {
+  description = "The name of SSH key name to use for the OpenVPN instance."
   type        = string
+}
+
+variable "key_pair_pub_key" {
+    type = string
+    description = "The pub key string for the key pair"
 }
 
 variable "ssh_port" {
