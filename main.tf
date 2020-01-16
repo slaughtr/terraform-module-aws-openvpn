@@ -1,3 +1,15 @@
+# provider and terraform blocks required by Terragrunt 0.19+
+provider "aws" {
+  region = var.aws_region
+}
+
+terraform {
+  # The configuration for this backend will be filled in by Terragrunt
+  backend "s3" {}
+  # The latest version of Terragrunt (v0.19.0 and above) requires Terraform 0.12.0 or above.
+  required_version = ">= 0.12.0"
+}
+
 resource "aws_instance" "openvpn" {
   ami                         = var.ami_id
   associate_public_ip_address = var.associate_public_ip_address
@@ -90,7 +102,7 @@ resource "aws_security_group" "openvpn" {
 resource "aws_security_group" "openvpn_public" {
   name   = "${var.prefix}${var.name}-public"
   vpc_id = var.vpc_id
-  
+
   ingress {
     from_port   = 1194
     to_port     = 1194
