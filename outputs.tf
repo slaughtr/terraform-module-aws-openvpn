@@ -40,7 +40,7 @@ output "security_group" {
 
 output "ssh_key" {
   sensitive = false
-  value     = var.keyname
+  value     = var.key_pair_keyname
 }
 
 output "ssh_port" {
