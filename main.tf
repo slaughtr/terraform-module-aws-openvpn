@@ -10,7 +10,13 @@ terraform {
   required_version = ">= 0.12.0"
 }
 
+resource "aws_key_pair" "keypair" {
+  key_name   = var.key_pair_keyname
+  public_key = var.key_pair_pub_key
+}
+
 resource "aws_instance" "openvpn" {
+    depends_on = [aws_key_pair.keypair]
   ami                         = var.ami_id
   associate_public_ip_address = var.associate_public_ip_address
   instance_type               = var.instance_type
